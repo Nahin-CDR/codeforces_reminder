@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 
@@ -179,7 +180,7 @@ class _UserStatisticsState extends State<UserStatistics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white12,
       appBar: AppBar(
         title: const Text("User Statistics"),
         backgroundColor: Colors.black12,
@@ -187,16 +188,15 @@ class _UserStatisticsState extends State<UserStatistics> {
       body: ListView(
        children: [
          Container(
-
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                  borderRadius: BorderRadius.only(
-                   bottomLeft: Radius.circular(30.00),
-                   topRight: Radius.circular(50.00),
+                   bottomLeft: Radius.circular(5.00),
+                   topRight: Radius.circular(5.00),
                  ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -205,76 +205,77 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("Total Attempted : "+totalAttempted.toString()
                          ,style: TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                           color: Colors.white
                          ),
-                       ):Text("Loading data.."),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
              )
          ),
          Container(
-
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 bottomLeft: Radius.circular(30.00),
-                 topRight: Radius.circular(50.00),
+                 bottomLeft: Radius.circular(5.00),
+                 topRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
                    children: [
-                     Text("         "),
+                     const Text("         "),
                      Container(
                        child: acLen != "-1"?Text("Total Contest : "+contestCount.toString()
-                         ,style: TextStyle(
-                           fontSize: 20.00,
+                         ,style: const TextStyle(
+                           fontSize: 15.00,
+                           color: Colors.white,
                          ),
-                       ):Text("Loading data.."),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
              )
          ),
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 bottomLeft: Radius.circular(30.00),
-                 topRight: Radius.circular(50.00),
+                 bottomLeft: Radius.circular(5.00),
+                 topRight: Radius.circular(5.00),
                ),
                color: Colors.green,
              ),
              child: Center(
                  child : Row(
                    children: [
-                     Text("         "),
+                     const Text("         "),
                      Container(
                        child: acLen != "-1"?Text( " Accepted : "+acLen.toString()
-                         ,style: TextStyle(
-                           fontSize: 20.00,
+                         ,style:const TextStyle(
+                           fontSize: 15.00,
                            color: Colors.white
                          ),
-                       ):Text("Loading data.."),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
              )
          ),
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 bottomLeft: Radius.circular(30.00),
-                 topRight: Radius.circular(50.00),
+                 bottomLeft: Radius.circular(5.00),
+                 topRight: Radius.circular(5.00),
                ),
                color: Colors.red,
              ),
@@ -283,7 +284,9 @@ class _UserStatisticsState extends State<UserStatistics> {
                    children: [
                      const Text("         "),
                      Container(
-                       child: acLen != "-1"? Text("  Wrong Ans : "+total_rejected.toString(),style: TextStyle(fontSize: 20.00, color: Colors.white),):Text("0"),
+                       child: acLen != "-1"? Text("  Wrong Ans : "+total_rejected.toString(),
+                         style: TextStyle(fontSize: 15.00, color: Colors.white),)
+                           :const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -291,13 +294,13 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
 
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
                color: Colors.brown,
              ),
@@ -307,7 +310,7 @@ class _UserStatisticsState extends State<UserStatistics> {
                      const Text("         "),
                      Container(
                        child: Text("Solve count according to rating ",
-                         style: TextStyle(fontSize: 20.00, color: Colors.white),),
+                         style: TextStyle(fontSize: 15.00, color: Colors.white)),
                      )
                    ],
                  )
@@ -315,26 +318,27 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 800
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
                    children: [
-                     Text("         "),
+                     const Text("         "),
                      Container(
                        child: acLen != "-1"?Text("800 rating : "+count800.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                             color: Colors.white
                          ),
-                       ):Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -342,26 +346,27 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 900
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
                    children: [
-                     Text("         "),
+                     const Text("         "),
                      Container(
                        child: acLen != "-1"?Text("900 rating : "+count900.toString()
-                         ,style: TextStyle(
-                           fontSize: 20.00,
+                         ,style: const TextStyle(
+                           fontSize: 15.00,
+                             color: Colors.white,
                          ),
-                       ):Text("Loading data.."),
+                       ): const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -369,26 +374,27 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1000
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
                    children: [
-                     Text("         "),
+                    const Text("         "),
                      Container(
                        child: acLen != "-1"?Text("1000 rating : "+count1000.toString()
-                         ,style: TextStyle(
-                           fontSize: 20.00,
+                         ,style: const TextStyle(
+                           fontSize: 15.00,
+                           color: Colors.white,
                          ),
-                       ):Text("Loading data.."),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -396,15 +402,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1100
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-                 color: Colors.black12
+                 color: Colors.white12
              ),
              child: Center(
                  child : Row(
@@ -413,10 +419,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("1100 rating : "+count1100.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
-                           color: Colors.black
+                           fontSize: 15.00,
+                             color: Colors.white
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -424,15 +430,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1200
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -441,9 +447,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("1200 rating : "+count1200.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                             color: Colors.white,
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -451,15 +458,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1300
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -468,9 +475,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("1300 rating : "+count1300.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                             color: Colors.white
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -478,15 +486,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1400
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -495,9 +503,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("1400 rating : "+count1400.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                           color: Colors.white,
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -505,15 +514,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1500
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -522,9 +531,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("1500 rating : "+count1500.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                           color: Colors.white,
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -532,15 +542,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1600
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -549,9 +559,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("1600 rating : "+count1600.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                           color: Colors.white,
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -559,26 +570,27 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1700
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
                    children: [
                      const Text("         "),
                      Container(
-                       child: acLen != "-1"?Text("1700 rating : "+count1700.toString()
+                       child: acLen != "-1"? Text("1700 rating : "+count1700.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                           color: Colors.white,
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -586,15 +598,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1800
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -603,9 +615,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("1800 rating : "+count1800.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                             color: Colors.white,
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -613,15 +626,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 1900
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -630,9 +643,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("1900 rating : "+count1900.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                           color: Colors.white,
                          ),
-                       ):const Text("Loading data.."),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )
@@ -640,15 +654,15 @@ class _UserStatisticsState extends State<UserStatistics> {
          ),
          //Rating 2200
          Container(
-             height: 80,
+             height: 45,
              width: MediaQuery.of(context).size.width-20,
-             margin: const EdgeInsets.all(20.00),
+             margin: const EdgeInsets.all(10.00),
              decoration: const BoxDecoration(
                borderRadius: BorderRadius.only(
-                 topLeft: Radius.circular(30.00),
-                 bottomRight: Radius.circular(50.00),
+                 topLeft: Radius.circular(5.00),
+                 bottomRight: Radius.circular(5.00),
                ),
-               color: Colors.black12,
+               color: Colors.white12,
              ),
              child: Center(
                  child : Row(
@@ -657,9 +671,10 @@ class _UserStatisticsState extends State<UserStatistics> {
                      Container(
                        child: acLen != "-1"?Text("2200 rating : "+count2200.toString()
                          ,style: const TextStyle(
-                           fontSize: 20.00,
+                           fontSize: 15.00,
+                           color: Colors.white,
                          ),
-                       ):const Text("0"),
+                       ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
                      )
                    ],
                  )

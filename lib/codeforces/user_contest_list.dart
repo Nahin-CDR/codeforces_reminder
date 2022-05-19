@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 
@@ -11,6 +12,7 @@ class UserContestList extends StatefulWidget {
 
 List? listResponse;
 Map? mapResponse;
+bool _isLoading = true;
 
 class _UserContestListState extends State<UserContestList> {
   String userHandle = "Nahin_junior71";
@@ -28,6 +30,9 @@ class _UserContestListState extends State<UserContestList> {
     } else {
       print("Error");
     }
+    setState((){
+      _isLoading = false;
+    });
   }
   //call this ApiCall() method at first when u come to this page
   @override
@@ -39,33 +44,33 @@ class _UserContestListState extends State<UserContestList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.white12,
       appBar: AppBar(
         title: const Text("User's Contest list"),
         backgroundColor: Colors.black12,
       ),
-      body: ListView.builder(
+      body: _isLoading? const Center(child: SpinKitRipple(color: Colors.white,size: 120)):  ListView.builder(
         itemBuilder: (context, index) {
           return Container(
             padding: const EdgeInsets.all(15.00),
             margin: const EdgeInsets.only(top: 10, right: 10.00, left: 10.00),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.00),
-              color: Colors.white,
+              color: Colors.white12,
             ),
             child: Column(
               children: [
                 //Contest Name
                 Container(
                   margin:
-                  const EdgeInsets.only(top: 10, right: 10.00, left: 10.00),
+                  const EdgeInsets.only(top: 5, right: 5.00, left: 5.00),
                   child: Center(
                       child: listResponse![index]['contestName'] == null
                           ? const Text("Loading data")
                           : Text(listResponse![index]['contestName'].toString(),
                           style: const TextStyle(
                             fontSize: 20,
-                            color: Colors.green,
+                            color: Colors.blueGrey,
                             fontWeight: FontWeight.bold,
                           ),
                       ),
@@ -83,8 +88,8 @@ class _UserContestListState extends State<UserContestList> {
                         : Text(
                       "Rank : " + listResponse![index]['rank'].toString(),
                       style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
+                        fontSize: 15,
+                        color: Colors.white
                       ),
                     ),
                   ),
@@ -101,8 +106,8 @@ class _UserContestListState extends State<UserContestList> {
                       "Old Rating : " +
                           listResponse![index]['oldRating'].toString(),
                       style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
+                        fontSize: 15,
+                          color: Colors.white
                       ),
                     ),
                   ),
@@ -118,7 +123,7 @@ class _UserContestListState extends State<UserContestList> {
                         : Text(
                       "New Rating : " +
                           listResponse![index]['newRating'].toString(),
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 15, color: Colors.white),
                     ),
                   ),
                 ),

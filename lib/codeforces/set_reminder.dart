@@ -88,7 +88,7 @@ class _SetReminderState extends State<SetReminder>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.white12,
       appBar: AppBar(
         title: const Text("Upcoming Contest"),
         backgroundColor: Colors.black12,
@@ -102,7 +102,8 @@ class _SetReminderState extends State<SetReminder>{
                 child: Text("${h.toString()} : ${m.toString()} : ${s.toString()}",
                   style: TextStyle(
                       fontSize: 40,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                   ),
                 ),
               )
@@ -113,28 +114,33 @@ class _SetReminderState extends State<SetReminder>{
             margin: const EdgeInsets.all(15.00),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.00),
-              color: Colors.green,
+
             ),
             child: Center(
                 child: Text("$lastContest",
-                    style: const TextStyle(fontSize: 20.00,color: Colors.white))
+                    style: const TextStyle(
+                        fontSize: 20.00,
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.bold
+                    ))
             ),
           ),
           //Set Reminder
           Container(
               margin: EdgeInsets.all(20),
+              color: Colors.white12,
               child:  InkWell(
-                splashColor: Colors.black38,
+                splashColor: Colors.white,
               onTap: (){
                 NotificationService().showNotification(1, "Codeforces Contest",
-                    "Your Contest will start soon", 5);
+                    "Your Contest will start soon", sec.toInt());
                 print(sec);
                 print(sec+10);
               },
               child: Ink(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.00),
-                  color: Colors.white,
+                  color: Colors.black12,
                 ),
                 child: Container(
                   margin: const EdgeInsets.all(15.00),
@@ -143,9 +149,10 @@ class _SetReminderState extends State<SetReminder>{
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Text("Set Reminder ",
-                            style: TextStyle(fontSize: 20.00)),
+                            style: TextStyle(fontSize: 17.00, color: Colors.white)),
                         Icon(
-                            Icons.alarm
+                            Icons.alarm,
+                          color: Colors.white,
                         )
                       ],
                     ),
@@ -156,39 +163,39 @@ class _SetReminderState extends State<SetReminder>{
             )
           ),
           //Cancel Reminder
-          Container(
-              margin: EdgeInsets.all(20),
-              child:  InkWell(
-                splashColor: Colors.red,
-                onTap: (){
-
-                },
-                child: Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.00),
-                    color: Colors.white,
-                  ),
-                  child: Container(
-
-                    margin: const EdgeInsets.all(15.00),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text("Cancel Reminder ",
-                              style: TextStyle(fontSize: 20.00)),
-                          Icon(
-                              Icons.cancel,
-                            color: Colors.red,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-              )
-          )
+          // Container(
+          //     margin: EdgeInsets.all(20),
+          //     child:  InkWell(
+          //       splashColor: Colors.red,
+          //       onTap: (){
+          //
+          //       },
+          //       child: Ink(
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(5.00),
+          //           color: Colors.white,
+          //         ),
+          //         child: Container(
+          //
+          //           margin: const EdgeInsets.all(15.00),
+          //           child: Center(
+          //             child: Row(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: const [
+          //                 Text("Cancel Reminder ",
+          //                     style: TextStyle(fontSize: 20.00)),
+          //                 Icon(
+          //                     Icons.cancel,
+          //                   color: Colors.red,
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //
+          //     )
+          // )
         ],
       )
     );

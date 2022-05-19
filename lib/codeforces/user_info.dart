@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 
 class UserInfo extends StatefulWidget {
@@ -10,6 +11,10 @@ class UserInfo extends StatefulWidget {
 String userName = "Nahin_junior71";
 List? listResponse;
 Map? mapResponse;
+bool _loading = true;
+
+
+
 class _UserInfoState extends State<UserInfo> {
   final url = "https://codeforces.com/api/user.info?handles=$userName";
   Future ApiCall() async{
@@ -27,6 +32,9 @@ class _UserInfoState extends State<UserInfo> {
     }else{
       print("Error");
     }
+   setState((){
+     _loading = false;
+   });
   }
   //call this ApiCall() method at first when u come to this page
   @override
@@ -43,7 +51,8 @@ class _UserInfoState extends State<UserInfo> {
         title: const Text("User Info"),
         backgroundColor: Colors.black12,
       ),
-      body: ListView.builder(itemBuilder: (context,index){
+      body: _loading? const Center(child: SpinKitRipple(color: Colors.white,size: 120)) :
+      ListView.builder(itemBuilder: (context,index){
         return Container(
           padding: const EdgeInsets.all(15.00),
           margin: const EdgeInsets.only(top: 10, right: 10.00, left: 10.00),
@@ -84,17 +93,17 @@ class _UserInfoState extends State<UserInfo> {
                 margin: const EdgeInsets.only(top: 10),
                 decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(2)),
-                child: Center(
-                  child: listResponse![index]['firstName'] == null
-                      ? const Text("Loading data")
-                      : Text(
-                    "Name : " +
-                        listResponse![index]['firstName'].toString(),
-                    style: const TextStyle(
-                      fontSize: 18,
+                child:Center(
+                      child: listResponse![index]['firstName'] == null
+                          ? const Text("Loading data")
+                          : Text(
+                        "Name : " +
+                            listResponse![index]['firstName'].toString(),
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
               ),
               //Country Name
               Container(

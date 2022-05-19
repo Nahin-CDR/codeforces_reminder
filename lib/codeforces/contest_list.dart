@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:codeforces_reminder/codeforces/rating_changes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 
@@ -16,6 +17,7 @@ String contestID = "5";
 
 List? listResponse;
 Map? mapResponse;
+bool _isLoading = true;
 
 class _ContestListState extends State<ContestList> {
   final url = "https://codeforces.com/api/contest.list?gym=false";
@@ -30,15 +32,16 @@ class _ContestListState extends State<ContestList> {
         mapResponse = json.decode(response.body);
         listResponse = mapResponse!['result'];
 
-
-
-
-
-
       });
     }else{
       print("Error");
     }
+    setState((){
+      _isLoading = false;
+    });
+
+
+
   }
 
   //call this ApiCall() method at first when u come to this page
@@ -53,12 +56,13 @@ class _ContestListState extends State<ContestList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.white12,
       appBar: AppBar(
         title: const Text("Last 50 Contests"),
         backgroundColor: Colors.black12,
       ),
-      body: ListView.builder(itemBuilder: (context,index){
+      body: _isLoading?const Center(child: SpinKitRipple(color: Colors.white,size: 100)) :
+      ListView.builder(itemBuilder: (context,index){
         return GestureDetector(
           onTap: (){
             if(listResponse![index]['phase'].toString() == "FINISHED" && listResponse![index]['type'].toString() == "CF"){
@@ -85,7 +89,7 @@ class _ContestListState extends State<ContestList> {
             margin: const EdgeInsets.only(top: 10, right: 10.00, left: 10.00),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.00),
-              color: Colors.white,
+              color: Colors.white12,
             ),
             child: Column(
               children: [
@@ -122,7 +126,7 @@ class _ContestListState extends State<ContestList> {
                       "Finished",
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                   ),
