@@ -11,7 +11,6 @@ class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
-
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
@@ -28,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home:  Scaffold(
+        backgroundColor: Colors.white70,
        body: SafeArea(
          child: Column(
            mainAxisSize: MainAxisSize.max,
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
              Flexible(
                  flex: 1,
                  child:  SpinKitRipple(
-                   color: Colors.lightBlue,
+                   color: Colors.white,
                    size: 100,
                  )),
              Flexible(

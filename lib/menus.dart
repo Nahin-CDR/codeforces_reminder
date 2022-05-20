@@ -668,11 +668,9 @@ class MyMenus extends StatelessWidget{
           children: [
             Container(
               margin: EdgeInsets.all(7.00),
-  
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
                 color: Colors.white12,
-                
               ),
               child: Column(
                 children: [
@@ -796,14 +794,12 @@ class MyMenus extends StatelessWidget{
                               ),
                             ],
                           )),
-
                     ],
                   ),
 
                 ],
               ),
             ),
-
             Flexible(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -1054,134 +1050,10 @@ class MyMenus extends StatelessWidget{
                           )
                       ),
                     ),
-                    //ContestList
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      color: Colors.white12,
-                      child: InkWell(
-                          splashColor: Colors.green,
-                          borderRadius: BorderRadius.only(
-                            //  topLeft: Radius.circular(50.00),
-                              bottomRight: Radius.circular(5.00)),
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                            const ContestList()));
-                          },
-                          child: Ink(
-                            height: MediaQuery.of(context).size.height/15,
-                            width: MediaQuery.of(context).size.width-20,
-                            decoration: BoxDecoration(
-                                color:Colors.black12,
-                                borderRadius: BorderRadius.only(
-                                  // topLeft: Radius.circular(50.00),
-                                  bottomRight: Radius.circular(5.00),
-                                )
-                            ),
-                            child:  Container(
-                                child: Center(
-                                    child : Row(
-                                      children: const [
-                                        Text("         "),
-                                        Icon(
-                                          Icons.list_alt,
-                                          size: 22,
-                                          color: Colors.white,
-                                        ),
-                                        Text("  Contest List ",style: TextStyle(fontSize: 17.00,color: Colors.white,)),
-                                      ],
-                                    )
-                                )
-                            ),
-
-                          )
-                      ),
-                    ),
-                    //Set Reminder
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      color: Colors.white12,
-                      child: InkWell(
-                          borderRadius: BorderRadius.only(
-                            //  topLeft: Radius.circular(50.00),
-                              bottomRight: Radius.circular(5.00)),
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                            const SetReminder()));
-                          },
-                          child: Ink(
-                            height: MediaQuery.of(context).size.height/15,
-                            width: MediaQuery.of(context).size.width-20,
-                            decoration: BoxDecoration(
-                                color:Colors.black12,
-                                borderRadius: BorderRadius.only(
-                                  // topLeft: Radius.circular(50.00),
-                                  bottomRight: Radius.circular(5.00),
-                                )
-                            ),
-                            child:  Container(
-                                child: Center(
-                                    child : Row(
-                                      children: const [
-                                        Text("         "),
-                                        Icon(
-                                          Icons.access_alarm,
-                                          size: 22,
-                                          color: Colors.white,
-                                        ),
-                                        Text("  Set Reminder",style: TextStyle(fontSize: 17.00,color: Colors.white,)),
-                                      ],
-                                    )
-                                )
-                            ),
-
-                          )
-                      ),
-                    ),
-                    //Top rated
-                    Container(
-                      color: Colors.white12,
-                      margin:const EdgeInsets.all(10),
-                      child: InkWell(
-                          borderRadius:const BorderRadius.only(
-                            //topLeft: Radius.circular(50.00),
-                              bottomRight: Radius.circular(5.00)),
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                            const TopRated()));
-                          },
-                          child: Ink(
-                            height: MediaQuery.of(context).size.height/15,
-                            width: MediaQuery.of(context).size.width-20,
-                            decoration:const BoxDecoration(
-                                color:Colors.black12,
-                                borderRadius: BorderRadius.only(
-                                  // topLeft: Radius.circular(50.00),
-                                  bottomRight: Radius.circular(5.00),
-                                )
-                            ),
-                            child: Center(
-                                child : Row(
-                                  children: const [
-                                    Text("         "),
-                                    Icon(
-                                      Icons.arrow_upward_outlined,
-                                      size: 22,
-                                      color: Colors.white,
-                                    ),
-                                    Text("  Top 10 ",style: TextStyle(fontSize: 17.00,color: Colors.white,)),
-                                  ],
-                                )
-                            ),
-
-                          )
-                      ),
-                    )
                   ],
                 ),
               ),
             ),
-
-
       ],
     );
   }
