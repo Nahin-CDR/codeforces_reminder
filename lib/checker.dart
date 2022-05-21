@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:codeforces_reminder/menus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +111,7 @@ class _CheckerState extends State<Checker> {
                     style: ElevatedButton.styleFrom(
                         primary: Colors.white12
                     ),
-                    onPressed: (){
+                    onPressed: () async {
                       if(userName.text.length>0)
                       {
                         ApiCall(userHandle: userName.text);
@@ -124,10 +125,39 @@ class _CheckerState extends State<Checker> {
                             duration: Duration(milliseconds: 1000),
                           ));
                         }else{
+                          try {
+                            final result = await InternetAddress.lookup('google.com');
+                            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text("Logging in...",
+                                  style: TextStyle(
+                                    fontSize: 17.00,
+                                    color: Colors.white
+                                  ),
+                                ),
+                                duration: Duration(milliseconds: 1000),
+                                backgroundColor: Colors.green,
+                              ));
 
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                            return MENUS(givenHandle: name);
-                          }));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                                return MENUS(givenHandle: name);
+                              }));
+                            }
+                          } on SocketException catch (_) {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text("You are disconnected from internet...",
+                                style: TextStyle(
+                                  fontSize: 17.00,
+                                  color: Colors.white
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 1000),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
+                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                          //   return MENUS(givenHandle: name);
+                          // }));
                         }
 
                       }else{
