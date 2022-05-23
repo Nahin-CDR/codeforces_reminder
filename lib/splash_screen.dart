@@ -1,9 +1,9 @@
-
 import 'dart:async';
 import 'package:codeforces_reminder/checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'menus.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,14 +11,31 @@ class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
+
+String? storedData;
+
 class _SplashScreenState extends State<SplashScreen> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  Future<void> _sharedData() async {
+    final SharedPreferences prefs = await _prefs;
+    setState(() {
+      storedData = prefs.getString('handle');
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 5),(){
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder:(context) =>Checker()));
+    _sharedData();
+    Timer(const Duration(seconds: 5), () {
+      if (storedData == null) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Checker()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MENUS()));
+      }
     });
   }
 
@@ -26,33 +43,31 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:  Scaffold(
+      home: Scaffold(
         backgroundColor: Colors.white24,
-       body: SafeArea(
-         child: Column(
-           mainAxisSize: MainAxisSize.max,
-           mainAxisAlignment: MainAxisAlignment.end,
-           children: [
-             Flexible(
-                 flex: 2,
-                 child: Image(image: AssetImage("images/cff.png")
-                 )
-             ),
-             Flexible(
-                 flex: 1,
-                 child:  SpinKitRipple(
-                   color: Colors.white,
-                   size: 100,
-                 )),
-             Flexible(
-                 flex: 2,
-                 child:  Image(image: AssetImage("images/kk2.png"),
-                   height:  MediaQuery.of(context).size.height-20,
-                 )),
-           ],
-         ),
-       ),
-     ),
+        body: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Flexible(
+                  flex: 2, child: Image(image: AssetImage("images/cff.png"))),
+              Flexible(
+                  flex: 1,
+                  child: SpinKitRipple(
+                    color: Colors.white,
+                    size: 100,
+                  )),
+              Flexible(
+                  flex: 2,
+                  child: Image(
+                    image: AssetImage("images/kk2.png"),
+                    height: MediaQuery.of(context).size.height - 20,
+                  )),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

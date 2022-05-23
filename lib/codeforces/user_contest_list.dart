@@ -5,9 +5,15 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 
 class UserContestList extends StatefulWidget {
+  
+  final String id;
+  UserContestList({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
-  State<UserContestList> createState() => _UserContestListState();
+  State<UserContestList> createState() => _UserContestListState(userHandle: id);
 }
 
 List? listResponse;
@@ -15,7 +21,13 @@ Map? mapResponse;
 bool _isLoading = true;
 
 class _UserContestListState extends State<UserContestList> {
-  String userHandle = "Nahin_junior71";
+
+  String userHandle;
+  _UserContestListState({required this.userHandle});
+  get ID => userHandle.toString();
+
+
+ // String userHandle = "Nahin_junior71";
 
   Future ApiCall() async {
     http.Response response;
