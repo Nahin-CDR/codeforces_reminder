@@ -110,13 +110,6 @@ class _MENUSState extends State<MENUS> {
 
 
 
-
-
-
-
-
-
-
   Future ApiCall() async {
     http.Response response;
     response = await http
@@ -146,6 +139,27 @@ class _MENUSState extends State<MENUS> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       ApiCall();
+    });
+    Timer(const Duration(seconds: 30), () {
+      if(_loading == true) {
+      showDialog(context: context, builder: (context){
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title:const Text("Sorry!",style: TextStyle(color: Colors.white)),
+          content:const Text("I'm unable to show data,server is not responding..",style: TextStyle(color: Colors.white)),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('exit',
+                  style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                // Navigator.of(context).pop();
+                exit(0);
+              },
+            ),
+          ],
+        );
+      });
+      }
     });
   }
 
@@ -187,7 +201,9 @@ class TryMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _loading ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [SpinKitRipple(color: Colors.white, size: 120)]))
+    return _loading ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SpinKitRipple(color: Colors.white, size: 120)]))
         : ListView(
           children: [
             Stack(
@@ -195,15 +211,42 @@ class TryMenu extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 Container(
-                height: 200,
+                height: 250,
                 margin: const EdgeInsets.only(top: 5,left: 10,right: 10),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: Colors.white12,)),
-                //Upcoming Contest
-                const Positioned (top: 10, right: 20, child: Text("upcoming contest :", style: TextStyle(fontSize: 15.00, color: Colors.white70,))),
+                //time remaining
+                const Positioned (top: 15, right: 15, child: Text("time remaining :", style: TextStyle(fontSize: 15.00, color: Colors.white70,))),
+                //time counter
+                Positioned(
+                  top: 35,
+                  right: 20,
+                  child: Text("${h.toString()} : ${m.toString()} : ${s.toString()}",
+                    style:const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+
+
+                ),
+                //upcoming contest
+                const Positioned(
+                    top: 135,
+                    right: 15,
+                    child:
+                    Text("upcoming contest : ",
+                        style: const TextStyle(
+                            fontSize: 15.00,
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold
+                        ))
+
+                ),
                 //contest name
                 Positioned(
-                    top: 35,
-                    right: 20,
+                    top: 155,
+                    right: 15,
                     child:
                     Text("$lastContest",
                         style: const TextStyle(
@@ -213,20 +256,7 @@ class TryMenu extends StatelessWidget {
                         ))
 
                 ),
-                //time counter
-                Positioned(
-                    top: 55,
-                    right: 20,
-                    child: Text("${h.toString()} : ${m.toString()} : ${s.toString()}",
-                      style:const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
 
-
-                ),
                 //first name
                 Positioned(
                   top: 15,
@@ -261,7 +291,7 @@ class TryMenu extends StatelessWidget {
                 ),
                 //profile image
                 Positioned(
-                top: 145,
+                top: 190,
                 child:CircleAvatar(
                   radius: 55,
                   backgroundColor: Colors.grey,
@@ -492,7 +522,10 @@ class TryMenu extends StatelessWidget {
                     NotificationService().showNotification(1, "Codeforces Contest",
                         "Your Contest will start soon", sec.toInt());
                     showDialog(context: context, builder: (context){
-                      return AlertDialog(backgroundColor: Colors.black, title: const Text("Alarm has been set", style: TextStyle(color: Colors.white)), content: Text("You will be notified",style: TextStyle(color: Colors.white)),
+                      return AlertDialog(backgroundColor: Colors.black,
+
+                        title:  Text("Alarm has been set for $lastContest ", style: TextStyle(color: Colors.white)),
+                        content: Text("You will be notified",style: TextStyle(color: Colors.white)),
                         actions: [
                           TextButton(onPressed: (){
                             Navigator.of(context).pop();

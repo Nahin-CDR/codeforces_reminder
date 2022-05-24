@@ -27,11 +27,7 @@ class _CheckerState extends State<Checker> {
     prefs.setString('handle', handle);
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _sharedData();
-  // }
+
 
   TextEditingController userName = TextEditingController();
 
@@ -40,8 +36,7 @@ class _CheckerState extends State<Checker> {
   Future ApiCall({required userHandle}) async {
     //final url = "https://codeforces.com/api/user.info?handles=$userHandle";
     http.Response response;
-    response = await http.get(Uri.parse(
-        "https://codeforces.com/api/user.info?handles=${userHandle}"));
+    response = await http.get(Uri.parse("https://codeforces.com/api/user.info?handles=${userHandle}"));
     print(response.statusCode);
     if (response.statusCode == 200) {
       setState(() {
@@ -133,7 +128,7 @@ class _CheckerState extends State<Checker> {
                             content: Text(
                               "Invalid User Handle",
                               style: TextStyle(
-                                fontSize: 17.00,
+                                fontSize: 12.00,
                               ),
                             ),
                             duration: Duration(milliseconds: 1000),
@@ -149,7 +144,7 @@ class _CheckerState extends State<Checker> {
                                 content: Text(
                                   "Logging in...",
                                   style: TextStyle(
-                                      fontSize: 17.00, color: Colors.white),
+                                      fontSize: 12.00, color: Colors.white),
                                 ),
                                 duration: Duration(milliseconds: 1000),
                                 backgroundColor: Colors.green,
@@ -166,7 +161,7 @@ class _CheckerState extends State<Checker> {
                               content: Text(
                                 "You are disconnected from internet...",
                                 style: TextStyle(
-                                    fontSize: 17.00, color: Colors.white),
+                                    fontSize: 12.00, color: Colors.white),
                               ),
                               duration: Duration(milliseconds: 1000),
                               backgroundColor: Colors.red,
