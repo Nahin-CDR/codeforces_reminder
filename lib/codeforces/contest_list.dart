@@ -103,7 +103,7 @@ class _ContestListState extends State<ContestList> {
                           : Text(
                           listResponse![index]['name'].toString(),
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.bold,
                           ))),
@@ -118,14 +118,14 @@ class _ContestListState extends State<ContestList> {
                         : listResponse![index]['phase'].toString() == "BEFORE"? const Text(
                           "In Queue",
                           style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           color: Colors.green,
                           fontWeight: FontWeight.bold
                         ),
                     ):const Text(
                       "Finished",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                         color: Colors.white,
                       ),
                     ),

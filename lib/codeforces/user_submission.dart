@@ -6,12 +6,18 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 
 class UserSubmission extends StatefulWidget {
-  const UserSubmission({Key? key}) : super(key: key);
+
+  final String id;
+  UserSubmission({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
+
   @override
-  State<UserSubmission> createState() =>_UserSubmissionState();
+  State<UserSubmission> createState() =>_UserSubmissionState(userHandle: id);
 }
 
-String userName = "Nahin_junior71";
+// String userName = "Nahin_junior71";
 String problemCount = "50";
 
 List? listResponse;
@@ -19,11 +25,13 @@ Map? mapResponse;
 bool _isLoading = true;
 
 class _UserSubmissionState extends State<UserSubmission> {
-  final url = "https://codeforces.com/api/user.status?handle=$userName&from=1&count=$problemCount";
+  String userHandle;
+  _UserSubmissionState({required this.userHandle});
+  get ID => userHandle.toString();
 
   Future ApiCall() async{
     http.Response response;
-    response = await http.get(Uri.parse(url));
+    response = await http.get(Uri.parse("https://codeforces.com/api/user.status?handle=$userHandle&from=1&count=$problemCount"));
     print(response.statusCode);
 
     if(response.statusCode == 200){

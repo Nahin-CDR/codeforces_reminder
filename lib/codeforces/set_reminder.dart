@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import '../notificationservice.dart';
 class SetReminder extends StatefulWidget {
@@ -25,6 +26,15 @@ double rem2 = 0;
 String? tempTime;
 
 class _SetReminderState extends State<SetReminder>{
+
+
+
+
+
+
+
+
+
 
   final url = "https://codeforces.com/api/contest.list?gym=false";
   Future ApiCall() async{
@@ -134,8 +144,15 @@ class _SetReminderState extends State<SetReminder>{
               onTap: (){
                 NotificationService().showNotification(1, "Codeforces Contest",
                     "Your Contest will start soon", sec.toInt());
-                print(sec);
-                print(sec+10);
+                showDialog(context: context, builder: (context){
+                  return AlertDialog(backgroundColor: Colors.black, title: const Text("Alarm has been set", style: TextStyle(color: Colors.white)), content: Text("You will be notified",style: TextStyle(color: Colors.white)),
+                    actions: [
+                      TextButton(onPressed: (){
+                        Navigator.of(context).pop();
+                      }, child: Text("ok",style: TextStyle(color: Colors.white))),
+                    ],
+                  );
+                });
               },
               child: Ink(
                 decoration: BoxDecoration(
@@ -162,40 +179,7 @@ class _SetReminderState extends State<SetReminder>{
 
             )
           ),
-          //Cancel Reminder
-          // Container(
-          //     margin: EdgeInsets.all(20),
-          //     child:  InkWell(
-          //       splashColor: Colors.red,
-          //       onTap: (){
-          //
-          //       },
-          //       child: Ink(
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(5.00),
-          //           color: Colors.white,
-          //         ),
-          //         child: Container(
-          //
-          //           margin: const EdgeInsets.all(15.00),
-          //           child: Center(
-          //             child: Row(
-          //               mainAxisAlignment: MainAxisAlignment.center,
-          //               children: const [
-          //                 Text("Cancel Reminder ",
-          //                     style: TextStyle(fontSize: 20.00)),
-          //                 Icon(
-          //                     Icons.cancel,
-          //                   color: Colors.red,
-          //                 )
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //
-          //     )
-          // )
+
         ],
       )
     );

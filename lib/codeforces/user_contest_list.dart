@@ -81,7 +81,7 @@ class _UserContestListState extends State<UserContestList> {
                           ? const Text("Loading data")
                           : Text(listResponse![index]['contestName'].toString(),
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.bold,
                           ),

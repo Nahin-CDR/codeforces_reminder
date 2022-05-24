@@ -50,8 +50,21 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              //Image(image: AssetImage("images/cff.png"))
               Flexible(
-                  flex: 2, child: Image(image: AssetImage("images/cff.png"))),
+                  flex: 2, child:Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "Codeforces",
+                    style: TextStyle(color: Colors.blue,fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    " Reminder",
+                    style: TextStyle(color: Colors.white,fontSize: 30,fontWeight:FontWeight.bold),
+                  )
+                ],
+              ), ),
               Flexible(
                   flex: 1,
                   child: SpinKitRipple(

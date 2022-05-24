@@ -7,11 +7,18 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 
 class UserStatistics extends StatefulWidget {
-  const UserStatistics({Key? key}) : super(key: key);
+
+  final String id;
+  UserStatistics({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
+
+
   @override
-  State<UserStatistics> createState() =>_UserStatisticsState();
+  State<UserStatistics> createState() =>_UserStatisticsState(userHandle: id);
 }
-String userName = "Nahin_junior71";
+//String userName = "Nahin_junior71";
 String problemCount = "50";
 
 List? listResponse;
@@ -40,13 +47,22 @@ String? count2200 = "0";
 String? contestCount = "0";
 
 class _UserStatisticsState extends State<UserStatistics> {
-  final url = "https://codeforces.com/api/user.status?handle=$userName";//&from=1&count=$problemCount";
-  final url2 = "https://codeforces.com/api/user.rating?handle=$userName"; //contest List
+
+  String userHandle;
+  _UserStatisticsState({required this.userHandle});
+  get ID => userHandle.toString();
+
+
+
+
+
+  // final url = ;//&from=1&count=$problemCount";
+  // final url2 = ; //contest List
 
   Future ApiCall() async{
     http.Response response1,response2;
-    response1 = await http.get(Uri.parse(url));
-    response2 = await http.get(Uri.parse(url2));
+    response1 = await http.get(Uri.parse("https://codeforces.com/api/user.status?handle=$userHandle"));
+    response2 = await http.get(Uri.parse("https://codeforces.com/api/user.rating?handle=$userHandle"));
 
 
     print(response1.statusCode);
