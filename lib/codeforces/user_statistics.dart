@@ -507,7 +507,7 @@ class _UserStatisticsState extends State<UserStatistics> {
           const Padding(padding: EdgeInsets.only(top:0,left: 15,right: 15,bottom: 10 ),child:  Divider(color: Colors.white,thickness: 1,)),
           //total contest
           Container(
-              height: 45,
+              height: 60,
               width: MediaQuery.of(context).size.width-20,
               margin: const EdgeInsets.only(top:10.00,left: 10,right: 10,bottom: 1),
               decoration: const BoxDecoration(
@@ -535,7 +535,7 @@ class _UserStatisticsState extends State<UserStatistics> {
           ),
           //contest summary
           Container(
-            margin: EdgeInsets.only(top: 10),
+            margin: EdgeInsets.only(top: 15),
             height: 130,
             child:  ListView(
               scrollDirection: Axis.horizontal,

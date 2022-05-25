@@ -37,7 +37,7 @@ int? Totalhours = -1;
 double hours = -1;
 double minutes = -1;
 int days = 0;
-int sec = 0;
+int sec = 150;
 int temp = 0;
 double seconds = 0;
 double rem1 = 0;
@@ -85,9 +85,8 @@ class _MENUSState extends State<MENUS> {
     time = time!*(-1);
     sec = time!;
   }
-  int sec = 50;
+ // int sec = 150;
   int period = 0;
-
   void startCountDown(){
     Timer.periodic(Duration(seconds:1), (timer) {
       if(sec > 0){
@@ -101,14 +100,13 @@ class _MENUSState extends State<MENUS> {
           seconds = rem2;
           s = seconds.toInt();
           sec--;
+         // print(sec);
         });
       }else{
         timer.cancel();
       }
     });
   }
-
-
   Future ApiCall() async {
     http.Response response;
     response = await http.get(Uri.parse("https://codeforces.com/api/user.info?handles=$data"));
@@ -126,14 +124,12 @@ class _MENUSState extends State<MENUS> {
       _loading = false;
     });
   }
-
   @override
   initState() {
     _sharedData();
     ApiCall_For_upcomingContest();
     tz.initializeTimeZones();
     startCountDown();
-
     super.initState();
     Timer(const Duration(seconds: 3), () {
       ApiCall();
@@ -211,8 +207,6 @@ class TryMenu extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-
-
                 ),
                 //upcoming contest
                 const Positioned(
@@ -227,19 +221,46 @@ class TryMenu extends StatelessWidget {
                         ))
 
                 ),
-                //contest name
-                Positioned(
-                    top: 155,
-                    right: 15,
-                    child:
-                    Text("$lastContest",
-                        style: const TextStyle(
-                            fontSize: 15.00,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold
-                        ))
+                 Positioned(
+                    top: 145,
+                    right: 20,
+                    child: IconButton(
+                      onPressed: () {
+                        showDialog(context: context, builder: (context){
+                          return AlertDialog(
+                            backgroundColor: Colors.black,
+                            title:const Text("Upcoming Contest",style: TextStyle(color: Colors.white),),
+                            content:  Text("$lastContest",
+                                style: const TextStyle(
+                                    fontSize: 15.00,
+                                    color: Colors.white,
+
+                                )),
+                          );
+                        });
+                      },
+                      icon: Icon(FontAwesomeIcons.arrowsToEye,color: Colors.white,),
+                    ),
+
 
                 ),
+
+                //contest name
+                // Positioned(
+                //     top: 155,
+                //     right: 15,
+                //     child:  SingleChildScrollView(
+                //       scrollDirection: Axis.horizontal,
+                //       child:
+                //         Text("$lastContest",
+                //             style: const TextStyle(
+                //                 fontSize: 15.00,
+                //                 color: Colors.grey,
+                //                 fontWeight: FontWeight.bold
+                //             )),
+                //     )
+                //
+                // ),
 
                 //first name
                 Positioned(
@@ -502,13 +523,14 @@ class TryMenu extends StatelessWidget {
               margin:const EdgeInsets.all(10),
               child: InkWell(
                   borderRadius:const BorderRadius.only(bottomRight: Radius.circular(5.00)),
-                  onTap: ()  {
-                    NotificationService().showNotification(1, "Codeforces Contest",
-                        "Your Contest will start soon", sec.toInt());
-                    showDialog(context: context, builder: (context){
-                      return AlertDialog(backgroundColor: Colors.black,
-
-                        title:  Text("Alarm has been set for $lastContest ", style: TextStyle(color: Colors.white)),
+                  onTap: ()  async {
+                     int limit = sec.toInt();
+                     if(limit-60>0){
+                       limit = limit - 60; //alarm will ring before 60 seconds of contest
+                     }
+                    NotificationService().showNotification(1, "Codeforces Contest","Your Contest will start soon",limit);
+                    showDialog(context: context, builder: (context){return AlertDialog(backgroundColor: Colors.black,
+                        title:  Text("Alarm has been set for $lastContest ", style: TextStyle(color: Colors.white,fontSize: 18)),
                         content: Text("You will be notified",style: TextStyle(color: Colors.white)),
                         actions: [
                           TextButton(onPressed: (){
@@ -517,6 +539,8 @@ class TryMenu extends StatelessWidget {
                         ],
                       );
                     });
+
+
                     // try {
                     //   final result = await InternetAddress.lookup('google.com');
                     //   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {

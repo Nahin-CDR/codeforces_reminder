@@ -142,6 +142,7 @@ class _SetReminderState extends State<SetReminder>{
               child:  InkWell(
                 splashColor: Colors.white,
               onTap: (){
+                  print(sec);
                 NotificationService().showNotification(1, "Codeforces Contest",
                     "Your Contest will start soon", sec.toInt());
                 showDialog(context: context, builder: (context){
