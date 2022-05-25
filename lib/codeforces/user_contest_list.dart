@@ -33,11 +33,25 @@ class _UserContestListState extends State<UserContestList> {
     http.Response response;
     response = await http.get(Uri.parse("https://codeforces.com/api/user.rating?handle=$userHandle"));
     print(response.statusCode);
-
+    // int worstRank = 0;
+    // int bestRank = 999999999;
     if (response.statusCode == 200) {
       setState(() {
         mapResponse = json.decode(response.body);
         listResponse = mapResponse!['result'];
+
+        // listResponse?.forEach((element) {
+        //   if(worstRank < element['rank'] ){
+        //       worstRank = element['rank'];
+        //   }
+        //   if(bestRank>element['rank']){
+        //      bestRank = element['rank'];
+        //   }
+        // });
+
+
+
+
       });
     } else {
       print("Error");
@@ -45,6 +59,8 @@ class _UserContestListState extends State<UserContestList> {
     setState((){
       _isLoading = false;
     });
+    // print("best rank"+bestRank.toString());
+    // print("worst rank"+worstRank.toString());
   }
   //call this ApiCall() method at first when u come to this page
   @override

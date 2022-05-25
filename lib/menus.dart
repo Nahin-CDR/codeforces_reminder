@@ -109,11 +109,9 @@ class _MENUSState extends State<MENUS> {
   }
 
 
-
   Future ApiCall() async {
     http.Response response;
-    response = await http
-        .get(Uri.parse("https://codeforces.com/api/user.info?handles=$data"));
+    response = await http.get(Uri.parse("https://codeforces.com/api/user.info?handles=$data"));
     if (response.statusCode == 200) {
       setState(() {
         mapResponse = json.decode(response.body);
@@ -152,7 +150,6 @@ class _MENUSState extends State<MENUS> {
               child: const Text('exit',
                   style: TextStyle(color: Colors.white)),
               onPressed: () {
-                // Navigator.of(context).pop();
                 exit(0);
               },
             ),
@@ -165,8 +162,8 @@ class _MENUSState extends State<MENUS> {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
+    //final double height = MediaQuery.of(context).size.height;
+   // final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white12,
       appBar: AppBar(
@@ -187,23 +184,10 @@ class _MENUSState extends State<MENUS> {
 
 class TryMenu extends StatelessWidget {
   const TryMenu({Key? key}) : super(key: key);
-
-
-
-
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return _loading ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SpinKitRipple(color: Colors.white, size: 120)]))
+        children: [SpinKitRipple(color: Colors.white, size: 120)]))
         : ListView(
           children: [
             Stack(
