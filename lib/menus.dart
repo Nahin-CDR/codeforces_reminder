@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:timezone/data/latest.dart' as tz;
 import '../notificationservice.dart';
-
 import 'package:codeforces_reminder/checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -12,10 +10,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'codeforces/contest_list.dart';
-import 'codeforces/set_reminder.dart';
 import 'codeforces/top_rated.dart';
 import 'codeforces/user_contest_list.dart';
-import 'codeforces/user_info.dart';
 import 'codeforces/user_statistics.dart';
 import 'codeforces/user_submission.dart';
 
@@ -28,7 +24,6 @@ List? listResponse;
 Map? mapResponse;
 bool _loading = true;
 String? data;
-
 
 
 String? lastContest = "";
@@ -48,12 +43,9 @@ int h = 0;
 int m = 0;
 int s = 0;
 
-
-
-
-
-
 class _MENUSState extends State<MENUS> {
+
+  //get data from shared pref and set the handle name
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<void> _sharedData() async {
     final SharedPreferences prefs = await _prefs;
@@ -62,11 +54,9 @@ class _MENUSState extends State<MENUS> {
     });
   }
 
-
   Future ApiCall_For_upcomingContest() async{
     http.Response response;
     response = await http.get(Uri.parse("https://codeforces.com/api/contest.list?gym=false"));
-   // print("Status Code : ${response.statusCode}");
     if(response.statusCode == 200){
       setState(() {
         mapResponse = json.decode(response.body);
@@ -78,17 +68,16 @@ class _MENUSState extends State<MENUS> {
             // print(tempTime);
           }});
       });
-    }else{
-      print("Error");
     }
     time = int.parse(tempTime!);
     time = time!*(-1);
     sec = time!;
+    setState(() {_loading = false;});
   }
  // int sec = 150;
   int period = 0;
   void startCountDown(){
-    Timer.periodic(Duration(seconds:1), (timer) {
+    Timer.periodic(const Duration(seconds:1), (timer) {
       if(sec > 0){
         setState(() {
           hours =sec/3600.round();
@@ -100,7 +89,6 @@ class _MENUSState extends State<MENUS> {
           seconds = rem2;
           s = seconds.toInt();
           sec--;
-         // print(sec);
         });
       }else{
         timer.cancel();
@@ -115,14 +103,8 @@ class _MENUSState extends State<MENUS> {
         mapResponse = json.decode(response.body);
         listResponse = mapResponse!['result'];
       });
-      String n = listResponse![0]['country'].toString();
-      print(n);
-    } else {
-      print("error");
     }
-    setState(() {
-      _loading = false;
-    });
+    setState(() {_loading = false;});
   }
   @override
   initState() {
@@ -134,24 +116,27 @@ class _MENUSState extends State<MENUS> {
     Timer(const Duration(seconds: 3), () {
       ApiCall();
     });
+    //if server takes too much time to respond
     Timer(const Duration(seconds: 30), () {
       if(_loading == true) {
-      showDialog(context: context, builder: (context){
-        return AlertDialog(
-          backgroundColor: Colors.black,
-          title:const Text("Sorry!",style: TextStyle(color: Colors.white)),
-          content:const Text("I'm unable to show data,server is not responding..",style: TextStyle(color: Colors.white)),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('exit',
-                  style: TextStyle(color: Colors.white)),
-              onPressed: () {
-                exit(0);
-              },
-            ),
-          ],
-        );
-      });
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: Colors.blueGrey,
+              title: const Text("Sorry!", style: TextStyle(color: Colors.white)),
+              content: const Text("I'm unable to show data,server is not responding..",style: TextStyle(color: Colors.white)),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('exit',style: TextStyle(color: Colors.white)),
+                  onPressed: () {
+                    exit(0);
+                  },
+                ),
+              ],
+            );
+          });
       }
     });
   }
@@ -173,13 +158,13 @@ class _MENUSState extends State<MENUS> {
         ),
         centerTitle: true,
       ),
-      body: TryMenu(), //MyMenus(),
+      body: MyMenus(), //MyMenus(),
     );
   }
 }
 
-class TryMenu extends StatelessWidget {
-  const TryMenu({Key? key}) : super(key: key);
+class MyMenus extends StatelessWidget {
+  const MyMenus({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return _loading ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,
@@ -212,87 +197,73 @@ class TryMenu extends StatelessWidget {
                 const Positioned(
                     top: 135,
                     right: 15,
-                    child:
-                    Text("upcoming contest : ",
-                        style: const TextStyle(
-                            fontSize: 15.00,
-                            color: Colors.blueGrey,
-                            fontWeight: FontWeight.bold
-                        ))
-
+                    child: Text("upcoming contest : ",style: TextStyle(fontSize: 15.00,color: Colors.blueGrey, fontWeight: FontWeight.bold))
                 ),
-                 Positioned(
+                //show dialog for watching upcoming contest name
+                Positioned(
                     top: 145,
                     right: 20,
                     child: IconButton(
                       onPressed: () {
                         showDialog(context: context, builder: (context){
                           return AlertDialog(
-                            backgroundColor: Colors.black,
-                            title:const Text("Upcoming Contest",style: TextStyle(color: Colors.white),),
-                            content:  Text("$lastContest",
-                                style: const TextStyle(
-                                    fontSize: 15.00,
-                                    color: Colors.white,
-
-                                )),
+                            backgroundColor: Colors.blueGrey,
+                            title: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children:const [
+                                Text("Upcoming Contest",style: TextStyle(color: Colors.white)),
+                                Divider(color: Colors.white,thickness: 2,)
+                              ],
+                            ),
+                            content:  Text("$lastContest",style: const TextStyle(fontSize: 15.00,color: Colors.white)),
+                            actions: [
+                              TextButton(onPressed: ()=>Navigator.of(context).pop(),child: const Text("ok",style: TextStyle(color: Colors.white),))
+                            ],
                           );
                         });
                       },
-                      icon: Icon(FontAwesomeIcons.arrowsToEye,color: Colors.white,),
+                      icon:const Icon(FontAwesomeIcons.arrowsToEye,color: Colors.white,),
                     ),
-
-
                 ),
-
-                //contest name
-                // Positioned(
-                //     top: 155,
-                //     right: 15,
-                //     child:  SingleChildScrollView(
-                //       scrollDirection: Axis.horizontal,
-                //       child:
-                //         Text("$lastContest",
-                //             style: const TextStyle(
-                //                 fontSize: 15.00,
-                //                 color: Colors.grey,
-                //                 fontWeight: FontWeight.bold
-                //             )),
-                //     )
-                //
-                // ),
-
-                //first name
+                //name
                 Positioned(
                   top: 15,
                   left: 20,
-                  child:Text("Name : "+listResponse![0]['firstName'].toString(),style: const TextStyle( fontSize: 15.00, color: Colors.white))
+                  child:listResponse![0]['firstName'] == null ?const Text("name not found...",style: TextStyle(fontSize: 12,color: Colors.blue))
+                      :Text("Name : "+listResponse![0]['firstName'].toString(),style: const TextStyle( fontSize: 15.00, color: Colors.white))
                 ),
                 //country
-                 Positioned(
+                Positioned(
                   top: 35,
                   left: 20,
-                  child: Text("From : "+listResponse![0]['country'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white)),
+                  child: listResponse![0]['country'] == null? const Text("country not found...",style: TextStyle(fontSize: 12,color: Colors.blue))
+                      :Text("From : "+listResponse![0]['country'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white)),
                 ),
                 //contest rating
                 Positioned(
                   top: 55,
                   left: 20,
-                  child: Text("Contest Rating : "+listResponse![0]['rating'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white)),
+                  child: listResponse![0]['rating'] ==null?const Text("contest rating not found...",style: TextStyle(fontSize: 12,color: Colors.blue)) :
+                  Text("Contest Rating : "+listResponse![0]['rating'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white)),
                 ),
                 //max rating
                 Positioned(
                   top: 75,
                   left: 20,
-                  child: Text("Max Rating : "+listResponse![0]['maxRating'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white),),
+                  child: listResponse![0]['maxRating'] == null?const Text("max rating not found...",style: TextStyle(fontSize: 12,color: Colors.blue)) :
+                  Text("Max Rating : "+listResponse![0]['maxRating'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white),),
                 ),
                 //current rank
-                Positioned(top: 95, left: 20, child: Text("Current Rank : "+listResponse![0]['rank'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white)),),
+                Positioned(
+                  top: 95, left: 20,
+                  child: listResponse![0]['rank'] == null?const Text("current rank not found...",style: TextStyle(fontSize: 12,color: Colors.blue)) :
+                  Text("Current Rank : "+listResponse![0]['rank'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white)),),
                 //max rank
-                 Positioned(
+                Positioned(
                   top: 115,
                   left: 20,
-                  child: Text("Max Rank : "+listResponse![0]['maxRank'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white),),
+                  child: listResponse![0]['maxRank'] == null ? const Text("max rank not found...",style: TextStyle(fontSize: 12,color: Colors.blue)) : Text("Max Rank : "+listResponse![0]['maxRank'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white),),
                 ),
                 //profile image
                 Positioned(
@@ -306,13 +277,14 @@ class TryMenu extends StatelessWidget {
               ],
             ),
             Container(
-            margin: EdgeInsets.only(top:55),
-            child: Center(child: Text("$data",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.white))),
+            margin:const EdgeInsets.only(top:55),
+            child: Center(child: Text("$data",style:const TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.white))),
           ),
             Container(
-             margin: EdgeInsets.only(top: 8,left: 15,right: 15,bottom: 5),
-             child:  Divider(color: Colors.white,thickness: 2),
+             margin:const EdgeInsets.only(top: 8,left: 15,right: 15,bottom: 5),
+             child: const Divider(color: Colors.white,thickness: 2),
            ),
+
             //User contest List
             Container(
               margin:const EdgeInsets.all(10),
@@ -355,10 +327,10 @@ class TryMenu extends StatelessWidget {
             ),
             //User Statistics
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               color: Colors.white12,
               child: InkWell(
-                  borderRadius: BorderRadius.only(
+                  borderRadius:const BorderRadius.only(
                     // topLeft: Radius.circular(50.00),
                       bottomRight: Radius.circular(5.00)),
                   onTap: () async {
@@ -382,8 +354,7 @@ class TryMenu extends StatelessWidget {
                     } on SocketException catch (_) {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(const SnackBar(
-                        content: Text(
-                          "You are disconnected from internet...",
+                        content: Text("You are disconnected from internet...",
                           style: TextStyle(
                               fontSize: 12.00, color: Colors.white),
                         ),
@@ -396,12 +367,7 @@ class TryMenu extends StatelessWidget {
                   child: Ink(
                     height: MediaQuery.of(context).size.height / 15,
                     width: MediaQuery.of(context).size.width - 20,
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.only(
-                          //  topLeft: Radius.circular(50.00),
-                          bottomRight: Radius.circular(5.00),
-                        )),
+                    decoration: const BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.only(bottomRight: Radius.circular(5.00),)),
                     child: Container(
                         child: Center(
                             child: Row(
@@ -425,9 +391,7 @@ class TryMenu extends StatelessWidget {
               margin:const EdgeInsets.all(10),
               color: Colors.white12,
               child: InkWell(
-                  borderRadius: BorderRadius.only(
-                    //  topLeft: Radius.circular(50.00),
-                      bottomRight: Radius.circular(5.00)),
+                  borderRadius:const BorderRadius.only(bottomRight: Radius.circular(5.00)),
                   onTap: () async {
                     try {
                       final result =
@@ -529,13 +493,13 @@ class TryMenu extends StatelessWidget {
                        limit = limit - 60; //alarm will ring before 60 seconds of contest
                      }
                     NotificationService().showNotification(1, "Codeforces Contest","Your Contest will start soon",limit);
-                    showDialog(context: context, builder: (context){return AlertDialog(backgroundColor: Colors.black,
-                        title:  Text("Alarm has been set for $lastContest ", style: TextStyle(color: Colors.white,fontSize: 18)),
-                        content: Text("You will be notified",style: TextStyle(color: Colors.white)),
+                    showDialog(barrierDismissible: false, context: context, builder: (context){return AlertDialog(backgroundColor: Colors.blueGrey,
+                        title:  Text("Alarm has been set for $lastContest ", style:const TextStyle(color: Colors.white,fontSize: 18)),
+                        content:const Text("You will be notified",style: TextStyle(color: Colors.white)),
                         actions: [
                           TextButton(onPressed: (){
                             Navigator.of(context).pop();
-                          }, child: Text("ok",style: TextStyle(color: Colors.white))),
+                          }, child: const Text("ok",style: TextStyle(color: Colors.white))),
                         ],
                       );
                     });
@@ -644,13 +608,6 @@ class TryMenu extends StatelessWidget {
         );
   }
 }
-
-
-
-
-
-
-
 
 
 // class MyMenus extends StatelessWidget {
@@ -1139,3 +1096,4 @@ Future<void> _deletesharedData() async {
   final SharedPreferences prefs = await _prefs;
   prefs.remove('handle');
 }
+

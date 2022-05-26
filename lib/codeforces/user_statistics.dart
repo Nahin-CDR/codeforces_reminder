@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -73,6 +74,7 @@ int maxDown = 999999999;
 
 String? contestCount = "0";
 double? width;
+bool _isLoading = true;
 class _UserStatisticsState extends State<UserStatistics> {
 
   String userHandle;
@@ -280,7 +282,9 @@ class _UserStatisticsState extends State<UserStatistics> {
       int rejected = total_attempted-ac;
       totalAttempted = total_attempted.toString();
       total_rejected = rejected.toString();
+      _isLoading = false;
       });
+
     }else{
       print("Error");
     }
@@ -328,6 +332,33 @@ class _UserStatisticsState extends State<UserStatistics> {
     // TODO: implement initState
     ApiCall();
     super.initState();
+    //if server takes too much time to load data
+    Timer(const Duration(seconds: 30), () {
+      if(_isLoading == true) {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                backgroundColor: Colors.blueGrey,
+                title: const Text(
+                    "Sorry!", style: TextStyle(color: Colors.white)),
+                content: const Text(
+                    "I'm unable to show data,server is not responding..",
+                    style: TextStyle(color: Colors.white)),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('exit',
+                        style: TextStyle(color: Colors.white)),
+                    onPressed: () {
+                      exit(0);
+                    },
+                  ),
+                ],
+              );
+            });
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {

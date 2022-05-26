@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   )
                 ],
               ), ),
-              Flexible(
+              const Flexible(
                   flex: 1,
                   child: SpinKitRipple(
                     color: Colors.white,
@@ -74,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Flexible(
                   flex: 2,
                   child: Image(
-                    image: AssetImage("images/kk2.png"),
+                    image:const AssetImage("images/kk2.png"),
                     height: MediaQuery.of(context).size.height - 20,
                   )),
             ],

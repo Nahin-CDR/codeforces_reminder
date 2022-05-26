@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
@@ -39,22 +41,11 @@ class _UserContestListState extends State<UserContestList> {
       setState(() {
         mapResponse = json.decode(response.body);
         listResponse = mapResponse!['result'];
-
-        // listResponse?.forEach((element) {
-        //   if(worstRank < element['rank'] ){
-        //       worstRank = element['rank'];
-        //   }
-        //   if(bestRank>element['rank']){
-        //      bestRank = element['rank'];
-        //   }
-        // });
-
-
-
-
       });
     } else {
-      print("Error");
+      setState((){
+        _isLoading = false;
+      });
     }
     setState((){
       _isLoading = false;
@@ -68,6 +59,32 @@ class _UserContestListState extends State<UserContestList> {
     // TODO: implement initState
     ApiCall();
     super.initState();
+
+    //if server takes too much time to response
+    Timer(const Duration(seconds: 30), () {
+      if(_isLoading == true) {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                backgroundColor: Colors.blueGrey,
+                title: const Text("Sorry!", style: TextStyle(color: Colors.white)),
+                content: const Text("I'm unable to show data,server is not responding..",style: TextStyle(color: Colors.white)),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('exit',style: TextStyle(color: Colors.white)),
+                    onPressed: () {
+                      exit(0);
+                    },
+                  ),
+                ],
+              );
+            });
+      }
+    });
+
+
   }
   @override
   Widget build(BuildContext context) {
@@ -113,11 +130,7 @@ class _UserContestListState extends State<UserContestList> {
                   child: Center(
                     child: listResponse![index]['rank'] == null
                         ? const Text("Loading data")
-                        : Text(
-                      "Rank : " + listResponse![index]['rank'].toString(),
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Colors.white
+                        : Text("Rank : " + listResponse![index]['rank'].toString(), style: const TextStyle(fontSize: 15,color: Colors.white
                       ),
                     ),
                   ),
@@ -130,12 +143,7 @@ class _UserContestListState extends State<UserContestList> {
                   child: Center(
                     child: listResponse![index]['oldRating'] == null
                         ? const Text("Loading data")
-                        : Text(
-                      "Old Rating : " +
-                          listResponse![index]['oldRating'].toString(),
-                      style: const TextStyle(
-                        fontSize: 15,
-                          color: Colors.white
+                        : Text("Old Rating : " + listResponse![index]['oldRating'].toString(), style: const TextStyle(fontSize: 15, color: Colors.white
                       ),
                     ),
                   ),

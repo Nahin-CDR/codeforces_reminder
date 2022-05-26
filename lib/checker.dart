@@ -120,7 +120,7 @@ class _CheckerState extends State<Checker> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.white12),
                     onPressed: () async {
-                      if (userName.text.length > 0) {
+                      if (userName.text.isNotEmpty) {
                         ApiCall(userHandle: userName.text);
                         if (_error) {
                           ScaffoldMessenger.of(context)
@@ -176,7 +176,7 @@ class _CheckerState extends State<Checker> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                backgroundColor: Colors.grey,
+                                backgroundColor: Colors.blueGrey,
                                 title: const Text(
                                   'Attention!',
                                   style: TextStyle(color: Colors.white),

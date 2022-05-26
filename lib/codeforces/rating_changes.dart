@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/cupertino.dart';
 
 class RatingChanges extends StatefulWidget {
   final String id;
@@ -25,16 +26,13 @@ class _RatingChangesState extends State<RatingChanges> {
   Future ApiCall() async {
     http.Response response;
     response = await http.get(Uri.parse("https://codeforces.com/api/contest.ratingChanges?contestId=$contestID"));
-    print(response.statusCode);
-    print(contestID);
-
     if (response.statusCode == 200) {
       setState(() {
         mapResponse = json.decode(response.body);
         listResponse = mapResponse!['result'];
       });
     } else {
-      print("Error");
+      setState((){_isLoading = false;});
     }
     setState((){_isLoading = false;});
   }
@@ -44,6 +42,33 @@ class _RatingChangesState extends State<RatingChanges> {
     // TODO: implement initState
     ApiCall();
     super.initState();
+    //if it takes too much time to load
+    Timer(const Duration(seconds: 30), () {
+      if(_isLoading == true) {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                backgroundColor: Colors.blueGrey,
+                title: const Text(
+                    "Sorry!", style: TextStyle(color: Colors.white)),
+                content: const Text(
+                    "I'm unable to show data,server is not responding..",
+                    style: TextStyle(color: Colors.white)),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('exit',
+                        style: TextStyle(color: Colors.white)),
+                    onPressed: () {
+                      exit(0);
+                    },
+                  ),
+                ],
+              );
+            });
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -69,62 +94,32 @@ class _RatingChangesState extends State<RatingChanges> {
                 Center(
                     child: listResponse![index]['contestName'] == null
                         ? const Text("Loading data")
-                        : Text(listResponse![index]['contestName'].toString(),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.bold,
-                        ))),
-
+                        : Text(listResponse![index]['contestName'].toString(), style: const TextStyle(fontSize: 18, color: Colors.blueGrey, fontWeight: FontWeight.bold,))
+                ),
                 //User Name
                 Container(
-                  margin: EdgeInsets.only(top: 5),
+                  margin:const EdgeInsets.only(top: 5),
                   child: listResponse![index]['handle'] == null
                       ? const Text("Loading data")
-                      : Text(
-                    "used ID : " +
-                        listResponse![index]['handle'].toString(),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.white
-                    ),
-                  ),
+                      : Text("used ID : "+listResponse![index]['handle'].toString(),style: const TextStyle(fontSize: 15, color: Colors.white),),
                 ),
-
                 //Rank
                 Center(
                   child: listResponse![index]['rank'] == null
                       ? const Text("Loading data")
-                      : Text(
-                    "Rank : " + listResponse![index]['rank'].toString(),
-                    style: const TextStyle(
-                      fontSize: 15,
-                        color: Colors.white
-                    ),
-                  ),
+                      : Text("Rank : " + listResponse![index]['rank'].toString(), style: const TextStyle(fontSize: 15, color: Colors.white),),
                 ),
                 //Old Rating
                 Center(
                   child: listResponse![index]['oldRating'] == null
                       ? const Text("Loading data")
-                      : Text(
-                    "Old Rating : " +
-                        listResponse![index]['oldRating'].toString(),
-                    style: const TextStyle(
-                      fontSize: 15,
-                        color: Colors.white
-                    ),
-                  ),
+                      : Text("Old Rating : " +listResponse![index]['oldRating'].toString(), style: const TextStyle(fontSize: 15, color: Colors.white)),
                 ),
                 //New Rating
                 Center(
                   child: listResponse![index]['newRating'] == null
                       ? const Text("Loading data")
-                      : Text(
-                    "New Rating : " +
-                        listResponse![index]['newRating'].toString(),
-                    style: const TextStyle(fontSize: 15,color: Colors.white),
-
+                      : Text("New Rating : " + listResponse![index]['newRating'].toString(),style: const TextStyle(fontSize: 15,color: Colors.white),
                   ),
                 ),
                 //Submission Status

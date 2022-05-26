@@ -1,10 +1,11 @@
 
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:codeforces_reminder/codeforces/rating_changes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/cupertino.dart';
 
 
 class ContestList extends StatefulWidget {
@@ -12,8 +13,6 @@ class ContestList extends StatefulWidget {
   @override
   State<ContestList> createState() =>_ContestListState();
 }
-String contestID = "5";
-
 
 List? listResponse;
 Map? mapResponse;
@@ -25,22 +24,14 @@ class _ContestListState extends State<ContestList> {
   Future ApiCall() async{
     http.Response response;
     response = await http.get(Uri.parse(url));
-    print(response.statusCode);
-
     if(response.statusCode == 200){
       setState(() {
         mapResponse = json.decode(response.body);
         listResponse = mapResponse!['result'];
 
       });
-    }else{
-      print("Error");
     }
-    setState((){
-      _isLoading = false;
-    });
-
-
+    setState((){_isLoading = false;});
 
   }
 
@@ -50,6 +41,29 @@ class _ContestListState extends State<ContestList> {
     // TODO: implement initState
     ApiCall();
     super.initState();
+    //if server is taking too much time to respond
+    Timer(const Duration(seconds: 30), () {
+      if(_isLoading == true) {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                backgroundColor: Colors.black,
+                title: const Text("Sorry!", style: TextStyle(color: Colors.white)),
+                content: const Text("I'm unable to show data,server is not responding..",style: TextStyle(color: Colors.white)),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('exit',style: TextStyle(color: Colors.white)),
+                    onPressed: (){
+                      exit(0);
+                    },
+                  ),
+                ],
+              );
+            });
+      }
+    });
   }
 
 
@@ -62,26 +76,17 @@ class _ContestListState extends State<ContestList> {
         backgroundColor: Colors.black12,
       ),
       body: _isLoading?const Center(child: SpinKitRipple(color: Colors.white,size: 100)) :
-      ListView.builder(itemBuilder: (context,index){
+      ListView.builder(
+        itemCount: listResponse == null ? 0 : 50,
+        itemBuilder: (context,index){
         return GestureDetector(
           onTap: (){
             if(listResponse![index]['phase'].toString() == "FINISHED" && listResponse![index]['type'].toString() == "CF"){
              // Go to rating changes page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RatingChanges(id:listResponse![index]['id'].toString())),
-              );
+              Navigator.push(context,MaterialPageRoute(builder: (context) => RatingChanges(id:listResponse![index]['id'].toString())),);
             }else{
-              // show toast
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Rating didn't change yet for this contest",
-                style: TextStyle(
-                  fontSize: 17.00,
-                ),
-                ),
-                duration: Duration(milliseconds: 1000),
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Rating didn't change yet for this contest", style: TextStyle(fontSize: 17.00,)), duration: Duration(milliseconds: 1000),
               ));
-              print(listResponse![index]['id'].toString());
             }
           },
           child: Container(
@@ -115,20 +120,13 @@ class _ContestListState extends State<ContestList> {
                   child: Center(
                     child: listResponse![index]['phase'] == null
                         ? const Text("Loading data")
-                        : listResponse![index]['phase'].toString() == "BEFORE"? const Text(
-                          "In Queue",
+                        : listResponse![index]['phase'].toString() == "BEFORE"? const Text("In Queue",
                           style: TextStyle(
                           fontSize: 15,
                           color: Colors.green,
                           fontWeight: FontWeight.bold
                         ),
-                    ):const Text(
-                      "Finished",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                      ),
-                    ),
+                    ):const Text("Finished", style: TextStyle(fontSize: 15, color: Colors.white,)),
                   ),
                 ),
               ],
@@ -136,7 +134,6 @@ class _ContestListState extends State<ContestList> {
           ),
         );
       },
-        itemCount: listResponse == null ? 0 : 50,
       ),
     );
   }

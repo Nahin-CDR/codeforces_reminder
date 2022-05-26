@@ -1,9 +1,6 @@
 import 'package:codeforces_reminder/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
-import 'menus.dart';
-import 'notificationservice.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -15,11 +12,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'cf reminder',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
