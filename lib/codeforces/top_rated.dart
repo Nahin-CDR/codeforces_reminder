@@ -34,6 +34,7 @@ class _TopRatedState extends State<TopRated> {
     // TODO: implement initState
     ApiCall();
     super.initState();
+
   }
 
 
@@ -41,18 +42,14 @@ class _TopRatedState extends State<TopRated> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white12,
-      appBar: AppBar(title: const Text("10 Top rated"),backgroundColor: Colors.black12),
+      appBar: AppBar(title: const Text("20 Top rated"),backgroundColor: Colors.black12),
       body: _isLoading?const Center(child: SpinKitRipple(color: Colors.white,size: 100))
           : ListView.builder(itemCount: listResponse == null ? 0 : 20,itemBuilder: (context,index) {
-            return Padding(padding: EdgeInsets.only(top: 10.00,left: 10.00,right: 10.00),
+            return Padding(padding:const EdgeInsets.only(top: 10.00,left: 10.00,right: 10.00),
             child: ListTile(
               tileColor: Colors.white12,
-              title: listResponse![index]['firstName'] == null
-                  ? const Text("Loading data")
-                  : Text(listResponse![index]['firstName'].toString(),style: const TextStyle(fontSize: 17, color: Colors.white),),
-              subtitle: listResponse![index]['rank'] == null
-                  ? const Text("Loading data")
-                  : Text(listResponse![index]['rank'].toString()+" : "+ listResponse![index]['rating'].toString(),style: const TextStyle(color: Colors.white)),
+              title: listResponse![index]['firstName'] == null ? const Text("Loading data") : Text(listResponse![index]['firstName'].toString(),style: const TextStyle(fontSize: 17, color: Colors.white)),
+              subtitle: listResponse![index]['rank'] == null ? const Text("Loading data") : Text(listResponse![index]['rank'].toString()+" : "+ listResponse![index]['rating'].toString(),style: const TextStyle(color: Colors.white)),
             onTap: (){
                 showDialog(context: context, builder: (context) => AlertDialog(
                   backgroundColor: Colors.blueGrey,
@@ -159,7 +156,7 @@ class _TopRatedState extends State<TopRated> {
                 ));
             },
             ),
-            );
+          );
       })
     );
   }
