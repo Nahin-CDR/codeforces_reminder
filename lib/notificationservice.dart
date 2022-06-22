@@ -38,10 +38,9 @@ class NotificationService {
       const NotificationDetails(
         android: AndroidNotificationDetails(
          'main_channel',
-          'Main Channel',
-          'Main channel notifications',
-          importance: Importance.max,
-          priority: Priority.max,
+          'Main Channel', // 'Main channel notifications',^6.0.0
+          importance: Importance.high,
+          priority: Priority.high,
           icon: '@drawable/ic_flutternotification',
           enableLights: true,
           playSound: true,

@@ -126,12 +126,13 @@ class _CheckerState extends State<Checker> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content: Text(
-                              "Invalid User Handle",
+                              "Invalid User Handle or server not responding",
                               style: TextStyle(
                                 fontSize: 12.00,
                               ),
                             ),
-                            duration: Duration(milliseconds: 1000),
+                            backgroundColor: Colors.red,
+                            duration: Duration(milliseconds: 1500),
                           ));
                         } else {
                           try {

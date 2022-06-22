@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/cupertino.dart';
 
 class UserStatistics extends StatefulWidget {
 
@@ -89,19 +88,21 @@ class _UserStatisticsState extends State<UserStatistics> {
   // final url2 = ; //contest List
 
   Future ApiCall() async{
+    bestRank = 999999999;
+    worstRank = 0;
+    maxUp = 0;
+    maxDown = 999999999;
+
     http.Response response1,response2;
     response1 = await http.get(Uri.parse("https://codeforces.com/api/user.status?handle=$userHandle"));
     response2 = await http.get(Uri.parse("https://codeforces.com/api/user.rating?handle=$userHandle"));
-
-
-    print(response1.statusCode);
+    //print(response1.statusCode);
     if(response1.statusCode == 200){
       setState(() {
         mapResponse = json.decode(response1.body);
         listResponse = mapResponse!['result'];
         Set<String>uniqueCountAC = Set();
         Set<String>uniqueCountTotal = Set();
-
         Set<String>Rating_800 = Set();
         Set<String>Rating_900 = Set();
         Set<String>Rating_1000 = Set();
@@ -185,46 +186,46 @@ class _UserStatisticsState extends State<UserStatistics> {
               if(element['problem']['rating'].toString() == "2300"){
               Rating_2300.add(temp);
             }
-            if(element['problem']['rating'].toString() == "2400"){
+              if(element['problem']['rating'].toString() == "2400"){
               Rating_2400.add(temp);
             }
-            if(element['problem']['rating'].toString() == "2500"){
+              if(element['problem']['rating'].toString() == "2500"){
               Rating_2500.add(temp);
             }
-            if(element['problem']['rating'].toString() == "2600"){
+              if(element['problem']['rating'].toString() == "2600"){
               Rating_2600.add(temp);
             }
-            if(element['problem']['rating'].toString() == "2700"){
+              if(element['problem']['rating'].toString() == "2700"){
               Rating_2700.add(temp);
             }
-            if(element['problem']['rating'].toString() == "2800"){
+              if(element['problem']['rating'].toString() == "2800"){
               Rating_2800.add(temp);
             }
-            if(element['problem']['rating'].toString() == "2900"){
+              if(element['problem']['rating'].toString() == "2900"){
               Rating_2900.add(temp);
             }
-            if(element['problem']['rating'].toString() == "3000"){
+              if(element['problem']['rating'].toString() == "3000"){
               Rating_3000.add(temp);
             }
-            if(element['problem']['rating'].toString() == "3100"){
+              if(element['problem']['rating'].toString() == "3100"){
               Rating_3100.add(temp);
             }
-            if(element['problem']['rating'].toString() == "3200"){
+              if(element['problem']['rating'].toString() == "3200"){
               Rating_3200.add(temp);
             }
-            if(element['problem']['rating'].toString() == "3300"){
+              if(element['problem']['rating'].toString() == "3300"){
               Rating_2300.add(temp);
             }
-            if(element['problem']['rating'].toString() == "3400"){
+              if(element['problem']['rating'].toString() == "3400"){
               Rating_3400.add(temp);
             }
-            if(element['problem']['rating'].toString() == "3500"){
+              if(element['problem']['rating'].toString() == "3500"){
               Rating_3500.add(temp);
             }
-            if(element['problem']['rating'].toString() == "3600"){
+              if(element['problem']['rating'].toString() == "3600"){
               Rating_3600.add(temp);
             }
-            if(element['problem']['rating'].toString() == "3700"){
+              if(element['problem']['rating'].toString() == "3700"){
               Rating_3700.add(temp);
             }
             if(element['problem']['rating'].toString() == "3800"){
@@ -286,7 +287,7 @@ class _UserStatisticsState extends State<UserStatistics> {
       });
 
     }else{
-      print("Error");
+     // print("Error");
     }
 
     Set<String>number_of_contest = Set();
@@ -332,6 +333,7 @@ class _UserStatisticsState extends State<UserStatistics> {
     // TODO: implement initState
     ApiCall();
     super.initState();
+
     //if server takes too much time to load data
     Timer(const Duration(seconds: 30), () {
       if(_isLoading == true) {
@@ -374,7 +376,7 @@ class _UserStatisticsState extends State<UserStatistics> {
           const Center(child : Text("\nProblem Solving",style: TextStyle(fontSize: 15.00, color: Colors.white,fontWeight: FontWeight.bold))),
           const Padding(padding: EdgeInsets.only(top:0,left: 15,right: 15,),child:  Divider(color: Colors.white,thickness: 1,)),
           Container(
-            margin: EdgeInsets.only(top: 10),
+            margin:const EdgeInsets.only(top: 10),
             height: 200,
             child:  ListView(
               children: [
@@ -409,7 +411,8 @@ class _UserStatisticsState extends State<UserStatistics> {
                                             fontSize: 15.00,
                                             color: Colors.white
                                         ),
-                                      ):const Center(child: SpinKitRipple(color: Colors.white,size: 50))
+                                      ):const
+                                      Center(child: SpinKitRipple(color: Colors.white,size: 50))
                                   )
                                 ],
                               )
@@ -423,7 +426,7 @@ class _UserStatisticsState extends State<UserStatistics> {
                   children: [
                   const Icon(
                     FontAwesomeIcons.checkToSlot,//circleCheck,
-                    color: Colors.green,
+                    color: const Color.fromRGBO(190, 255, 179, 0.0),
                   ),
                   Container(
                       height: 45,

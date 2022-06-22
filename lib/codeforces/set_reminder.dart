@@ -27,15 +27,6 @@ String? tempTime;
 
 class _SetReminderState extends State<SetReminder>{
 
-
-
-
-
-
-
-
-
-
   final url = "https://codeforces.com/api/contest.list?gym=false";
   Future ApiCall() async{
     http.Response response;
@@ -124,7 +115,6 @@ class _SetReminderState extends State<SetReminder>{
             margin: const EdgeInsets.all(15.00),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.00),
-
             ),
             child: Center(
                 child: Text("$lastContest",
